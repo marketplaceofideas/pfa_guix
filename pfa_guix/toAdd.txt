@@ -1,0 +1,10 @@
+shop
+rarity(in desc?), mag items, typebias
+buy, add, sell, remove
+
+addCond(perc, 2, "trapfinding?")
+
+timer: round, hour, day
+
+spell fncs belonging to character
+selector dependend on range type

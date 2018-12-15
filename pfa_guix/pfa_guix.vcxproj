@@ -113,8 +113,16 @@
     </QtRcc>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="character.cpp" />
+    <ClCompile Include="equipment.cpp" />
+    <ClCompile Include="frame.cpp" />
+    <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="npc.cpp" />
+    <ClCompile Include="player.cpp" />
+    <ClCompile Include="spell.cpp" />
+    <ClCompile Include="weapon.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h" />
@@ -124,6 +132,16 @@
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mainwindow.qrc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="character.h" />
+    <ClInclude Include="equipment.h" />
+    <ClInclude Include="frame.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="npc.h" />
+    <ClInclude Include="player.h" />
+    <ClInclude Include="spell.h" />
+    <ClInclude Include="weapon.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

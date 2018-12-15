@@ -1,0 +1,90 @@
+angel, astral deva
+14
+abberation;sky;extraplanar
+38400
+angel
+fighter
+NG
+large;long
+angel;extraplanar;good
+8
+darkvision(60);low-light vision
+protective aura
+29;15;4
+15;10;90
+16
+13
+11
+10;evil
+electricity,10;fire,10
+acid;cold;petrification
+25
+50;0;0;100
+disrupting warhammer
+1,uncanny dodge;3,aid;3,see invis
+
+26
+19
+21
+18
+18
+23
+15
+23
+37
+alertness;cleave
+22;0;0;22;24;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+celestial;draconic;infernal;truespeech
+change shape
+any good plane
+1;2;3-6
+2;disrupting warhammer
+stun
+created by dieties from souls of good mortals
+
+
+cat
+.25
+animal;urban;cold
+100
+
+
+NN
+tiny
+
+2
+low-light vision;scent
+
+14;0;2
+1;8;0
+1
+4
+1
+
+
+
+
+30
+
+
+
+3
+15
+8
+2
+12
+7
+0
+0
+6
+weapon finesse;
+0;0;0;6;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0
+
+
+plains
+1
+0
+
+5-15 lbs.
+10 cmd vs trip
+
