@@ -2,7 +2,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
-#include <iostream>
 #include <sstream>
 #include <string>
 #include "frame.h"
@@ -14,338 +13,150 @@ using namespace std;
 //    wvec.push_back(Weapon());
 //}
 
-// create
-Player::Player() : Character()
+Player::Player(string filename, string mode) : Character()
 {
-    string temp;
-    cout << "1. Create character (not implemented)" << endl
-         << "2. Input character" << endl
-         << "3. Load character" << endl;
-    cout << "Enter choice or 0 to exit: ";
-    getline(cin, temp);
-    cout << endl;
+	if (mode == "new")
+	{
+		// gross
+	}
 
-    switch(atoi(temp.c_str()))
-    {
-    case 0:
-        return; // destruct
-        break;
-    case 1:
-        create();
-        break;
-    case 2:
-        input();
-        break;
-    case 3:
-        load();
-        break;
-    }
+	else if (mode == "input")
+	{
+		
+	}
+
+	else if (mode == "load")
+	{
+		string temp = filename + "1.txt";
+
+		ifstream file(temp.c_str());
+
+		getline(file, name);
+
+		getline(file, temp);
+		sex = temp[0];
+		getline(file, temp);
+		age = atoi(temp.c_str());
+		getline(file, temp);
+		height = atoi(temp.c_str());
+		getline(file, temp);
+		weight = atoi(temp.c_str());
+
+		getline(file, align);
+
+		getline(file, temp);
+		lvl = atoi(temp.c_str());
+		getline(file, temp);
+		xp = atoi(temp.c_str());
+		getline(file, temp);
+		xpcap = atoi(temp.c_str());
+		getline(file, temp);
+		str = atoi(temp.c_str());
+		getline(file, temp);
+		dex = atoi(temp.c_str());
+		getline(file, temp);
+		con = atoi(temp.c_str());
+		getline(file, temp);
+		int1 = atoi(temp.c_str());
+		getline(file, temp);
+		wis = atoi(temp.c_str());
+		getline(file, temp);
+		cha = atoi(temp.c_str());
+
+		getline(file, race);
+
+		getline(file, temp);
+		Frame::setStats(favoredClass, temp);
+
+		getline(file, class1);
+		getline(file, classSkill);
+
+		getline(file, temp);
+		Frame::setStats(proficiency, temp);
+
+		getline(file, temp);
+		rank1 = atoi(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(size1, temp);
+
+		getline(file, temp);
+		init = atoi(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(trait, temp);
+		getline(file, temp);
+		Frame::setStats(aura, temp);
+		getline(file, temp);
+		Frame::setStats(ac, temp);
+		getline(file, temp);
+		Frame::setStats(hp, temp);
+
+		getline(file, temp);
+		fsav = atoi(temp.c_str());
+		getline(file, temp);
+		rsav = atoi(temp.c_str());
+		getline(file, temp);
+		wsav = atoi(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(dr, temp);
+		getline(file, temp);
+		Frame::setStats(er, temp);
+		getline(file, temp);
+		Frame::setStats(im, temp);
+
+		getline(file, temp);
+		sr = atoi(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(spd, temp);
+		getline(file, temp);
+		Frame::setStats(weapon, temp);
+		getline(file, temp);
+		Frame::setStats(ability, temp);
+		getline(file, temp);
+		Frame::setStats(spell, temp);
+
+		getline(file, temp);
+		bab = atoi(temp.c_str());
+		getline(file, temp);
+		cmb = atoi(temp.c_str());
+		getline(file, temp);
+		cmd = atoi(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(feat, temp);
+		getline(file, temp);
+		Frame::setStats(skill, temp);
+		getline(file, temp);
+		Frame::setStats(lang, temp);
+		getline(file, temp);
+		Frame::setStats(sq, temp);
+		getline(file, temp);
+		Frame::setStats(inv, temp);
+		getline(file, temp);
+		Frame::setStats(equipped, temp);
+		getline(file, temp);
+		Frame::setStats(companion, temp);
+
+		getline(file, temp);
+		gp = atof(temp.c_str());
+		getline(file, temp);
+		encumb = atof(temp.c_str());
+		getline(file, temp);
+		capacity = atof(temp.c_str());
+
+		getline(file, temp);
+		Frame::setStats(extra, temp);
+
+		file.close();
+	}
 }
 
-void Player::create()
+void Player::save(string filename)
 {
-
-}
-
-void Player::input()
-{
-    string temp;
-
-    cout << "name: ";
-    getline(cin, name);
-
-    cout << "1. male" << endl
-         << "2. female" << endl;
-    cout << "choice: ";
-    getline(cin, temp);
-    cout << endl;
-
-    switch(atoi(temp.c_str()))
-    {
-    case 1:
-        sex = 'm';
-        break;
-    case 2:
-        sex = 'f';
-        break;
-    }
-    cout << "age: ";
-    getline(cin, temp);
-    age = atoi(temp.c_str());
-    cout << "height (inches): ";
-    getline(cin, temp);
-    height = atoi(temp.c_str());
-    cout << "weight: ";
-    getline(cin, temp);
-    weight = atoi(temp.c_str());
-
-    cout << "alignment" << endl;
-    cout << "1. ce" << endl
-         << "2. cn" << endl
-         << "3. cg" << endl
-         << "4. ne" << endl
-         << "5. nn" << endl
-         << "6. ng" << endl
-         << "7. le" << endl
-         << "8. ln" << endl
-         << "9. lg" << endl;
-    cout << "choose: ";
-    getline(cin, temp);
-
-    switch(atoi(temp.c_str()))
-    {
-    case 1:
-        align = "ce";
-        break;
-    case 2:
-        align = "cn";
-        break;
-    case 3:
-        align = "cg";
-        break;
-    case 4:
-        align = "ne";
-        break;
-    case 5:
-        align = "nn";
-        break;
-    case 6:
-        align = "ng";
-        break;
-    case 7:
-        align = "le";
-        break;
-    case 8:
-        align = "ln";
-        break;
-    case 9:
-        align = "lg";
-        break;
-    }
-
-    cout << "lvl: ";
-    getline(cin, temp);
-    lvl = atoi(temp.c_str());
-    cout << "xp: ";
-    getline(cin, temp);
-    xp = atoi(temp.c_str());
-
-    cout << "str: ";
-    getline(cin, temp);
-    str = atoi(temp.c_str());
-    cout << "dex: ";
-    getline(cin, temp);
-    dex = atoi(temp.c_str());
-    cout << "con: ";
-    getline(cin, temp);
-    con = atoi(temp.c_str());
-    cout << "int: ";
-    getline(cin, temp);
-    int1 = atoi(temp.c_str());
-    cout << "wis: ";
-    getline(cin, temp);
-    wis = atoi(temp.c_str());
-    cout << "cha: ";
-    getline(cin, temp);
-    cha = atoi(temp.c_str());
-
-    cout << "favored class: ";
-    getline(cin, temp);
-    favoredClass.push_back(temp);
-
-    cout << "class: ";
-    getline(cin, class1); // change to menu maybe
-    hp.push_back(lvl);
-    setClass(0);
-    hp.push_back(0);
-    cmb = 0;
-    cmd = 10;
-    setxpcap();
-
-    capacity = str*10;
-    setRace();
-
-    init = statMod(dex);
-    inputStat(trait, "trait", "traits.txt");
-    ac.push_back(10);
-    ac.push_back(statMod(dex));
-    ac.push_back(0);
-    cout << "hp: ";
-    getline(cin, temp);
-    hp.push_back(atoi(temp.c_str()));
-
-    inputStat(ability, "ability", "abilities.txt");
-    inputStat(spell, "spell", "spells.txt");
-    inputStat(feat, "feat", "feats.txt");
-
-
-    int choice = -1;
-    skill.resize(35,0);
-    for(int i = 0; i < skill.size(); i++)
-    {
-        cout << i+1 << ". " << skillName[i] << endl;
-    }
-    while (choice != 0)
-    {
-        if (choice > 0)
-        {
-            cout << "value: ";
-            getline(cin, temp);
-            skill[choice-1] = atoi(temp.c_str());
-        }
-        cout << "Enter choice or 0 when done: ";
-        getline(cin, temp);
-        choice = atoi(temp.c_str());
-    }
-
-    inputStat(lang, "language");
-    inputStat(extra, "extra");
-    sr = 0;
-
-    gp = 0;
-    encumb = 0;
-
-    cout << endl;
-}
-
-void Player::load()
-{
-    string temp;
-    cout << "save name: ";
-    getline(cin, temp);
-    temp += "1.txt";
-
-    ifstream file(temp.c_str());
-
-    getline(file, name);
-
-    getline(file, temp);
-    sex = temp[0];
-    getline(file, temp);
-    age = atoi(temp.c_str());
-    getline(file, temp);
-    height = atoi(temp.c_str());
-    getline(file, temp);
-    weight = atoi(temp.c_str());
-
-    getline(file, align);
-
-    getline(file, temp);
-    lvl = atoi(temp.c_str());
-    getline(file, temp);
-    xp = atoi(temp.c_str());
-    getline(file, temp);
-    xpcap = atoi(temp.c_str());
-    getline(file, temp);
-    str = atoi(temp.c_str());
-    getline(file, temp);
-    dex = atoi(temp.c_str());
-    getline(file, temp);
-    con = atoi(temp.c_str());
-    getline(file, temp);
-    int1 = atoi(temp.c_str());
-    getline(file, temp);
-    wis = atoi(temp.c_str());
-    getline(file, temp);
-    cha = atoi(temp.c_str());
-
-    getline(file, race);
-
-    getline(file, temp);
-    Frame::setStats(favoredClass, temp);
-
-    getline(file, class1);
-    getline(file, classSkill);
-
-    getline(file, temp);
-    Frame::setStats(proficiency, temp);
-
-    getline(file, temp);
-    rank1 = atoi(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(size1, temp);
-
-    getline(file, temp);
-    init = atoi(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(trait, temp);
-    getline(file, temp);
-    Frame::setStats(aura, temp);
-    getline(file, temp);
-    Frame::setStats(ac, temp);
-    getline(file, temp);
-    Frame::setStats(hp, temp);
-
-    getline(file, temp);
-    fsav = atoi(temp.c_str());
-    getline(file, temp);
-    rsav = atoi(temp.c_str());
-    getline(file, temp);
-    wsav = atoi(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(dr, temp);
-    getline(file, temp);
-    Frame::setStats(er, temp);
-    getline(file, temp);
-    Frame::setStats(im, temp);
-
-    getline(file, temp);
-    sr = atoi(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(spd, temp);
-    getline(file, temp);
-    Frame::setStats(weapon, temp);
-    getline(file, temp);
-    Frame::setStats(ability, temp);
-    getline(file, temp);
-    Frame::setStats(spell, temp);
-
-    getline(file, temp);
-    bab = atoi(temp.c_str());
-    getline(file, temp);
-    cmb = atoi(temp.c_str());
-    getline(file, temp);
-    cmd = atoi(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(feat, temp);
-    getline(file, temp);
-    Frame::setStats(skill, temp);
-    getline(file, temp);
-    Frame::setStats(lang, temp);
-    getline(file, temp);
-    Frame::setStats(sq, temp);
-    getline(file, temp);
-    Frame::setStats(inv, temp);
-    getline(file, temp);
-    Frame::setStats(equipped, temp);
-    getline(file, temp);
-    Frame::setStats(companion, temp);
-
-    getline(file, temp);
-    gp = atof(temp.c_str());
-    getline(file, temp);
-    encumb = atof(temp.c_str());
-    getline(file, temp);
-    capacity = atof(temp.c_str());
-
-    getline(file, temp);
-    Frame::setStats(extra, temp);
-
-    cout << endl;
-    file.close();
-}
-
-void Player::save()
-{
-    string temp;
-    cout << "save name (remember this for loading): ";
-    getline(cin, temp);
-    temp += "1.txt";
+    string temp = filename;
 
     ofstream file(temp.c_str());
 
@@ -403,13 +214,13 @@ void Player::save()
     file << saveStat(extra) << endl;
 
     // add temporary conditions and stuff
-    cout << endl;
     file.close();
 }
 
 void Player::setRace()
 {
     string temp;
+	/*
     cout << "1. dwarf" << endl
          << "2. elf" << endl
          << "3. gnome" << endl
@@ -420,6 +231,7 @@ void Player::setRace()
     cout << "choose: ";
     getline(cin, temp);
     cout << endl;
+	*/
 
     switch(atoi(temp.c_str()))
     {
@@ -449,8 +261,8 @@ void Player::setRace()
         size1.push_back("medium");
         spd.push_back(30);
 
-        cout << "favored class: ";
-        getline(cin, temp);
+        //cout << "favored class: ";
+        //getline(cin, temp);
         favoredClass.push_back(temp);
         break;
     case 5:
@@ -576,7 +388,7 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
     }
     else
     {
-        cout << "error" << endl;
+        //cout << "error" << endl;
     }
 }
 
@@ -588,10 +400,13 @@ void Player::gainlvl()
     hp[0] = lvl;
     string temp;
 
+	/*
+
     if (!(lvl%4))
     {
         for (int i = 0; i < 2; i++)
         {
+			
             cout << "add stat" << endl
                  << "1. str" << endl
                  << "2. dex" << endl
@@ -602,6 +417,7 @@ void Player::gainlvl()
             cout << "choice (no doubling up): ";
             getline(cin, temp);
             cout << endl;
+			
 
             switch(atoi(temp.c_str()))
             {
@@ -661,6 +477,8 @@ void Player::gainlvl()
     }
 
     setxpcap();
+
+	*/
 }
 
 void Player::gainSkill(int r)
@@ -669,12 +487,12 @@ void Player::gainSkill(int r)
     int choice;
     for(int i = 0; i < skill.size(); i++)
     {
-        cout << i+1 << ". " << skillName[i] << endl;
+        //cout << i+1 << ". " << skillName[i] << endl;
     }
     for (int i = 0; i < r; i++)
     {
-        cout << "choice (no repeats): ";
-        getline(cin, temp);
+        //cout << "choice (no repeats): ";
+        //getline(cin, temp);
         choice = atoi(temp.c_str());
         int j = 1;
         string s = string(",") + temp + string(",");
@@ -685,7 +503,7 @@ void Player::gainSkill(int r)
         skill[choice-1] += j;
     }
 
-    cout << endl;
+    //cout << endl;
 }
 
 void Player::gainProficiency(string str)
@@ -710,7 +528,7 @@ void Player::gaingp(double i)
 //display
 void Player::display()
 {
-    cout << name << endl;
+    /*cout << name << endl;
     cout << "sex: " << sex << endl;
     cout << "age: " << age << endl;
     cout << "height: " << height/12 << "\'" << height%12 << "\"" << endl;
@@ -771,7 +589,7 @@ void Player::display()
     Frame::displayStat(companion, "companion");
     Frame::displayStat(sq, "sq");
     Frame::displayStat(extra, "extra");
-    cout << endl;
+    cout << endl;*/
 }
 
 void Player::setxpcap()
@@ -787,8 +605,8 @@ void Player::inputStat(vector<string> &vec, string str, string fname)
     while(true)
     {
         string temp;
-        cout << "enter new " << str << " or 0 to finish: ";
-        getline(cin, temp);
+        //cout << "enter new " << str << " or 0 to finish: ";
+        //getline(cin, temp);
         if (temp == "0")
         {
             break;

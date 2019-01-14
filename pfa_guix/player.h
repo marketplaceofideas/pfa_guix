@@ -27,14 +27,10 @@ private:
 public:
     //void giveWeapon();
 
-
-    Player();
+	Player(string filename, string mode);
 
     // initialize
-    void create();
-    void input();
-    void load();
-    void save();
+    void save(string filename);
     void setxpcap();
     void setRace();
     void setClass(int i = 1);

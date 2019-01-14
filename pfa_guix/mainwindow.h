@@ -1,12 +1,11 @@
 #pragma once
 
 #include <QtWidgets/QMainWindow>
-#include <QtWidgets/qpushbutton.h>
-#include <QtWidgets/qlabel.h>
-
+//#include <QVector>
 #include "ui_mainwindow.h"
+#include "player.h"
 
-//namespace Ui {	class MainWindow;  }
+#include <QtWidgets>
 
 class MainWindow : public QMainWindow
 {
@@ -16,10 +15,17 @@ public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
 	~MainWindow();
 
-	QPushButton *skillBtn[35];
-	QLabel *skillLbl[35];
+	QStackedWidget *mainStk;
+	QString pfilename;
+	//QFile pfile;
+
+	bool pflag;
+	Player *player0;
+	//void 
 
 private:
-	//Ui::MainWindow *ui;
 	Ui::MainWindowClass ui;
+
+public slots:
+	void openPlayer();
 };

@@ -11,40 +11,40 @@ using namespace std;
 
 vector<string> Frame::names;
 
-void Frame::encounter(string temp) // idk
-{
-    if (temp == "")
-    {
-        while (temp != 0)
-        {
-            // npc vec?
-        }
-    }
-    else
-    {
-        // find encounter in file, search all names
-    }
-}
+//void Frame::encounter(string temp) // idk
+//{
+//    if (temp == "")
+//    {
+//        while (temp != 0)
+//        {
+//            // npc vec?
+//        }
+//    }
+//    else
+//    {
+//        // find encounter in file, search all names
+//    }
+//}
 
-void Frame::combat(Character *chars) // roll inits, cycle through actions
-{
-    // find who's sneaking, maybe add a character bool
-    // find highest perception and throw sneak rolls at them
-    // flag out the bad stealths
-    // run through preliminary rounds (up to 2: surprise round, removing flatfoot round) (keep a counter for clock anyways)
-
-    // main body: cycle person by person, action by action
-    // each char will be in a []
-    int roundcount = 1;
-    while () // idk, maybe user-requested flag-out
-    {
-        cout << "Starting round " << roundcount << endl;
-        for (int i = 0; i < _; ++i) // each char
-        {
-            cout << "1. ";
-        }
-    }
-}
+//void Frame::combat(Character *chars) // roll inits, cycle through actions
+//{
+//    // find who's sneaking, maybe add a character bool
+//    // find highest perception and throw sneak rolls at them
+//    // flag out the bad stealths
+//    // run through preliminary rounds (up to 2: surprise round, removing flatfoot round) (keep a counter for clock anyways)
+//
+//    // main body: cycle person by person, action by action
+//    // each char will be in a []
+//    int roundcount = 1;
+//    while () // idk, maybe user-requested flag-out
+//    {
+//        cout << "Starting round " << roundcount << endl;
+//        for (int i = 0; i < _; ++i) // each char
+//        {
+//            cout << "1. ";
+//        }
+//    }
+//}
 
 // playing
 

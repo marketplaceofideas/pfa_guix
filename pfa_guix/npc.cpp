@@ -444,7 +444,7 @@ void Npc::addIndex()
     checkDesc("feats.txt", temp);
 
     int choice = -1;
-    string temparr[35] = "0";
+	string temparr[35] = {"0"};
     for(int i = 0; i < 35; i++)
     {
         cout << i+1 << ". " << skillName[i] << endl;

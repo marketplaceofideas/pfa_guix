@@ -1,7 +1,6 @@
 #include "character.h"
 //#include "weapon.h"
 #include <cstdlib>
-#include <iostream>
 #include <string>
 #include <vector>
 #include <fstream>
@@ -116,7 +115,7 @@ void Character::addDesc(string fname, string name)
     fvec.insert(fvec.begin() + x, name); // name
     x++;
 
-    cout << "enter description for ";
+    //cout << "enter description for ";
     Frame::getStats(name, x, fvec); // desc
 
     fvec.insert(fvec.begin() + x, "");
@@ -133,33 +132,33 @@ void Character::addDesc(string fname, string name)
 void Character::showDesc(string fname)
 {
     string temp;
-    cout << "search: ";
-    getline(cin, temp);
+    //cout << "search: ";
+    //getline(cin, temp);
     int id = Frame::searchID(fname, temp);
 
     fstream file(fname.c_str());
     for (int i = 0; i < id*3; i++)
     {
-        getline(file, temp);
+        //getline(file, temp);
     }
-    getline(file, temp);
-    cout << temp << endl;
+    //getline(file, temp);
+    //cout << temp << endl;
 }
 
 //skills
 int Character::chooseSkill()
 {
     string temp;
-    cout << "enter first 4 characters of skill (no spaces, just k for knowledge) or menu for menu: ";
-    getline(cin, temp);
+    //cout << "enter first 4 characters of skill (no spaces, just k for knowledge) or menu for menu: ";
+    //getline(cin, temp);
     if (temp == "menu")
     {
         for (int i = 0; i < skill.size(); i++)
         {
-            cout << i+1 << ". " << skillName[i] << endl;
+            //cout << i+1 << ". " << skillName[i] << endl;
         }
-        cout << "choose: ";
-        getline(cin, temp);
+        //cout << "choose: ";
+        //getline(cin, temp);
         return atoi(temp.c_str());
     }
     else
@@ -184,7 +183,7 @@ int Character::rollSkill(int choice)
     }
     if (choice == -1)
     {
-        cout << "not found" << endl;
+        //cout << "not found" << endl;
         return -1;
     }
 
@@ -342,7 +341,7 @@ void Character::useSkill(int choice)
 
     if (choice == -1)
     {
-        cout << "not found" << endl;
+        //cout << "not found" << endl;
         return;
     }
 
@@ -354,153 +353,153 @@ void Character::useSkill(int choice)
     string fail = "failed";
     string succstr = "success";
     string critsucc = "critical success: ";
-    if (choice == acro)
-    {
-        cout << "1. ledge-walk (half speed)" << endl
-             << "2. move through threatened space" << endl /////////check ground conditions: 1-4, add jump distance = check
-             << "3. long jump" << endl
-             << "4. high jump" << endl
-             << "5. brace fall (when deliberate)";
-        cout << "choice or 0 to exit: ";
-        getline(cin, temp);
-        switch(atoi(temp.c_str()))
-        {
-        case 0:
-            return;
-        case 1:
-            cout << "width (inches): ";
-            getline(cin, temp);
-            dc += 20;
-            dc -= ((atoi(temp.c_str()) + 3) / 5) * 5;
-            break;
-        case 2:
-            cout << "opponent cmd: ";
-            getline(cin, temp);
-            dc += atoi(temp.c_str());
+    //if (choice == acro)
+    //{
+    //    cout << "1. ledge-walk (half speed)" << endl
+    //         << "2. move through threatened space" << endl /////////check ground conditions: 1-4, add jump distance = check
+    //         << "3. long jump" << endl
+    //         << "4. high jump" << endl
+    //         << "5. brace fall (when deliberate)";
+    //    cout << "choice or 0 to exit: ";
+    //    getline(cin, temp);
+    //    switch(atoi(temp.c_str()))
+    //    {
+    //    case 0:
+    //        return;
+    //    case 1:
+    //        cout << "width (inches): ";
+    //        getline(cin, temp);
+    //        dc += 20;
+    //        dc -= ((atoi(temp.c_str()) + 3) / 5) * 5;
+    //        break;
+    //    case 2:
+    //        cout << "opponent cmd: ";
+    //        getline(cin, temp);
+    //        dc += atoi(temp.c_str());
 
-            cout << "through enemy? ";
-            getline(cin, temp);
-            if (temp[0] == 'y')
-            {
-                dc += 5;
-            }
+    //        cout << "through enemy? ";
+    //        getline(cin, temp);
+    //        if (temp[0] == 'y')
+    //        {
+    //            dc += 5;
+    //        }
 
-            cout << "full speed? ";
-            getline(cin, temp);
-            if (temp[0] == 'y')
-            {
-                dc += 10;
-            }
-            break;
-        case 3:
-            critfail += "fall";
-            fail += ": 20rsav to catch ledge";
-            check += 4*((spd[0] - 30) / 10); // override for climb speed
+    //        cout << "full speed? ";
+    //        getline(cin, temp);
+    //        if (temp[0] == 'y')
+    //        {
+    //            dc += 10;
+    //        }
+    //        break;
+    //    case 3:
+    //        critfail += "fall";
+    //        fail += ": 20rsav to catch ledge";
+    //        check += 4*((spd[0] - 30) / 10); // override for climb speed
 
-            cout << "distance: ";
-            getline(cin, temp);
-            dc += atoi(temp.c_str());
+    //        cout << "distance: ";
+    //        getline(cin, temp);
+    //        dc += atoi(temp.c_str());
 
-            cout << "10ft running start? ";
-            getline(cin, temp);
-            if (temp[0] == 'n')
-            {
-                dc *= 2;
-            }
-            break;
-        case 4:
-            critfail += "fall prone";
-            fail += ": 20rsav to catch ledge";
-            check += 4*((spd[0] - 30) / 10); // see above
+    //        cout << "10ft running start? ";
+    //        getline(cin, temp);
+    //        if (temp[0] == 'n')
+    //        {
+    //            dc *= 2;
+    //        }
+    //        break;
+    //    case 4:
+    //        critfail += "fall prone";
+    //        fail += ": 20rsav to catch ledge";
+    //        check += 4*((spd[0] - 30) / 10); // see above
 
-            cout << "height: ";
-            getline(cin, temp);
-            dc += 4 * atoi(temp.c_str());
+    //        cout << "height: ";
+    //        getline(cin, temp);
+    //        dc += 4 * atoi(temp.c_str());
 
-            cout << "10ft running start? ";
-            getline(cin, temp);
-            if (temp[0] == 'n')
-            {
-                dc *= 2;
-            }
-            break;
-        case 5:
-            dc += 15;
-            succstr += ": ignore first 10ft of falling"; //cont
-        }
-    }
-    else if (choice == appr)
-    {
-        cout << "1. " << endl
-             << "2. " << endl
-             << "3. " << endl
-             << "4. " << endl;
-        cout << "choice or 0 to exit: ";
-        getline(cin, temp);
-        switch(atoi(temp.c_str()))
-        {
-        case 0:
-            return;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        case 4:
-            break;
-        }
-    }
-    else if (choice == bluf)
-    {
-        cout << "1. lie" << endl
-             << "2. feint" << endl
-             << "3. speak code" << endl;
-        cout << "choice or 0 to exit: ";
-        getline(cin, temp);
-        switch(atoi(temp.c_str()))
-        {
-        case 0:
-            return;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        }
-    }
-    else if (choice == clim)
-    {
+    //        cout << "10ft running start? ";
+    //        getline(cin, temp);
+    //        if (temp[0] == 'n')
+    //        {
+    //            dc *= 2;
+    //        }
+    //        break;
+    //    case 5:
+    //        dc += 15;
+    //        succstr += ": ignore first 10ft of falling"; //cont
+    //    }
+    //}
+    //else if (choice == appr)
+    //{
+    //    cout << "1. " << endl
+    //         << "2. " << endl
+    //         << "3. " << endl
+    //         << "4. " << endl;
+    //    cout << "choice or 0 to exit: ";
+    //    getline(cin, temp);
+    //    switch(atoi(temp.c_str()))
+    //    {
+    //    case 0:
+    //        return;
+    //    case 1:
+    //        break;
+    //    case 2:
+    //        break;
+    //    case 3:
+    //        break;
+    //    case 4:
+    //        break;
+    //    }
+    //}
+    //else if (choice == bluf)
+    //{
+    //    cout << "1. lie" << endl
+    //         << "2. feint" << endl
+    //         << "3. speak code" << endl;
+    //    cout << "choice or 0 to exit: ";
+    //    getline(cin, temp);
+    //    switch(atoi(temp.c_str()))
+    //    {
+    //    case 0:
+    //        return;
+    //    case 1:
+    //        break;
+    //    case 2:
+    //        break;
+    //    case 3:
+    //        break;
+    //    }
+    //}
+    //else if (choice == clim)
+    //{
 
-    }
-    else if (choice == craf)
-    {
-        // depends on what user is invested in
-        // alchemy, armor, basket, book, bow, calligraphy, carpentry, cloth, clothing, glass, jewelry, leather, locks, paintings, pottery, sculptures, ships, shoes
-        // stonemasonry, traps, weapons, (skills?)
+    //}
+    //else if (choice == craf)
+    //{
+    //    // depends on what user is invested in
+    //    // alchemy, armor, basket, book, bow, calligraphy, carpentry, cloth, clothing, glass, jewelry, leather, locks, paintings, pottery, sculptures, ships, shoes
+    //    // stonemasonry, traps, weapons, (skills?)
 
-        cout << "1. alchemy" << endl
-             << "2. armor" << endl
-             << "3. bow" << endl
-             << "4. weapon" << endl
-             << "5. other" << endl
-             << "6. trap" << endl;
-        cout << "choice or 0 to exit: ";
-        getline(cin, temp);
-        switch(atoi(temp.c_str()))
-        {
-        case 0:
-            return;
-        case 1:
-            break;
-        case 2:
-            break;
-        case 3:
-            break;
-        }
-    }
-    else if (choice == dipl)
+    //    cout << "1. alchemy" << endl
+    //         << "2. armor" << endl
+    //         << "3. bow" << endl
+    //         << "4. weapon" << endl
+    //         << "5. other" << endl
+    //         << "6. trap" << endl;
+    //    cout << "choice or 0 to exit: ";
+    //    getline(cin, temp);
+    //    switch(atoi(temp.c_str()))
+    //    {
+    //    case 0:
+    //        return;
+    //    case 1:
+    //        break;
+    //    case 2:
+    //        break;
+    //    case 3:
+    //        break;
+    //    }
+    //}
+    /*else*/ if (choice == dipl)
     {
 
     }
@@ -623,19 +622,19 @@ void Character::useSkill(int choice)
 
     if (check < dc - 5 && critfail != "critical failure: ")
     {
-        cout << critfail;
+        //cout << critfail;
     }
     else if (check >= dc + 10 && critsucc != "critical success: ")
     {
-        cout << critsucc;
+        //cout << critsucc;
     }
     else if (check < dc)
     {
-        cout << fail;
+        //cout << fail;
     }
     else
     {
-        cout << succstr;
+        //cout << succstr;
     }
 }
 

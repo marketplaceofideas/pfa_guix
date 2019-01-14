@@ -128,9 +128,6 @@
     <QtMoc Include="mainwindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <QtUic Include="mainwindow.ui" />
-  </ItemGroup>
-  <ItemGroup>
     <QtRcc Include="mainwindow.qrc" />
   </ItemGroup>
   <ItemGroup>
