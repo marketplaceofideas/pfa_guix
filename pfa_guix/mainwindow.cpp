@@ -25,15 +25,12 @@ MainWindow::MainWindow(QWidget *parent)
 	// main stack pages...
 	QWidget *pgMain = new QWidget();
 	QWidget *pgGm = new QWidget();
-	QWidget *pgPl = new QWidget();
 	// ...and their layouts
 	QHBoxLayout *pglMain = new QHBoxLayout(pgMain);
 	QGridLayout *pglGm = new QGridLayout(pgGm);
-	QGridLayout *pglPl = new QGridLayout(pgPl);
 
 	mainStk->addWidget(pgMain);
 	mainStk->addWidget(pgGm);
-	mainStk->addWidget(pgPl);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////// Main Page
 
@@ -56,6 +53,29 @@ MainWindow::MainWindow(QWidget *parent)
 	pglMain->addWidget(plBtn);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////// gm page
+
+	this->setCentralWidget(mainStk);
+	mainStk->setCurrentIndex(0);
+}
+
+MainWindow::~MainWindow()
+{
+	if (pflag)
+	{
+		//delete player0;
+	}
+}
+
+PLWindow::PLWindow(QWidget *parent)
+	: QMainWindow(parent)
+{
+	// size policies
+	QSizePolicy mainBtnSize(QSizePolicy::Minimum, QSizePolicy::Minimum);
+	QSizePolicy btnSize(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+	this->resize(1200, 800);
+	QWidget *pgPl = new QWidget();
+	QGridLayout *pglPl = new QGridLayout(pgPl);
 
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////// player page
 
@@ -151,7 +171,7 @@ MainWindow::MainWindow(QWidget *parent)
 	//QSpacerItem *skillSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
 	// skill grid
-	QString skillNList[]{ "Acrobatics", "Appraise", "Bluff", "Climb", "Craft", "Diplomacy", "Disable Device", "Disguise", "Escape Artist", "Fly", 
+	QString skillNList[]{ "Acrobatics", "Appraise", "Bluff", "Climb", "Craft", "Diplomacy", "Disable Device", "Disguise", "Escape Artist", "Fly",
 		"Handle Animal", "Heal", "Intimidate", "K. Arcana", "K. Dungeoneering", "K. Engineering", "K. Geography", "K. History", "K. Local", "K. Nature",
 		"K. Nobility", "K. Planes", "K. Religion", "Linguistics", "Perception", "Perform", "Profession", "Ride", "Sense Motive", "Sleight of Hand",
 		"Spellcraft", "Stealth", "Survival", "Swim", "Use Magic Device" };
@@ -202,7 +222,7 @@ MainWindow::MainWindow(QWidget *parent)
 		eqplBox->addWidget(eqpName[i], i + 1, 0);
 		eqpSlot[i] = new QPushButton("eSlot", pgPl);
 		eqplBox->addWidget(eqpSlot[i], i + 1, 1);
-		eqpName[i] = new QLabel(eqpNList[8+i], pgPl);
+		eqpName[i] = new QLabel(eqpNList[8 + i], pgPl);
 		eqplBox->addWidget(eqpName[i], i + 1, 2);
 		eqpSlot[i] = new QPushButton("eSlot", pgPl);
 		eqplBox->addWidget(eqpSlot[i], i + 1, 3);
@@ -234,18 +254,12 @@ MainWindow::MainWindow(QWidget *parent)
 	pglPl->addWidget(skillHeader, 3, 0);
 	pglPl->addLayout(invlBox, 0, 3, 5, 1);
 
-	/////////////////////////////////////////////////////////////////////////////////////////////////////////// credits aka post META
-
-	this->setCentralWidget(mainStk);
-	mainStk->setCurrentIndex(0);
+	this->setCentralWidget(pgPl);
 }
 
-MainWindow::~MainWindow()
+PLWindow::~PLWindow()
 {
-	if (pflag)
-	{
-		delete player0;
-	}
+
 }
 
 void MainWindow::openPlayer()
@@ -262,11 +276,17 @@ void MainWindow::openPlayer()
 		{
 			player0 = new Player(pfilename.toStdString(), "load");
 			pflag = true;
-			mainStk->setCurrentIndex(2);
+			hide();
+			plWin = new PLWindow(this);
+			plWin->show();
 		}
 		else
 		{
 			mainStk->setCurrentIndex(2); // for debug
+			hide();
+			plWin = new PLWindow(this);
+			plWin->show();
+			
 			// create/input new character, save, then load:
 
 

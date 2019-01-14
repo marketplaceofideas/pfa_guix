@@ -2,10 +2,18 @@
 
 #include <QtWidgets/QMainWindow>
 //#include <QVector>
-#include "ui_mainwindow.h"
 #include "player.h"
 
 #include <QtWidgets>
+
+class PLWindow : public QMainWindow
+{
+	Q_OBJECT
+
+public:
+	PLWindow(QWidget *parent = Q_NULLPTR);
+	~PLWindow();
+};
 
 class MainWindow : public QMainWindow
 {
@@ -17,14 +25,11 @@ public:
 
 	QStackedWidget *mainStk;
 	QString pfilename;
-	//QFile pfile;
+	Player *player0;
 
 	bool pflag;
-	Player *player0;
-	//void 
 
-private:
-	Ui::MainWindowClass ui;
+	PLWindow *plWin;
 
 public slots:
 	void openPlayer();
