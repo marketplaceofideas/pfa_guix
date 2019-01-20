@@ -15,6 +15,7 @@ using namespace std;
 
 Player::Player(string filename, string mode) : Character()
 {
+	string temp = filename;
 	if (mode == "new")
 	{
 		// gross
@@ -27,8 +28,6 @@ Player::Player(string filename, string mode) : Character()
 
 	else if (mode == "load")
 	{
-		string temp = filename + "1.txt";
-
 		ifstream file(temp.c_str());
 
 		getline(file, name);

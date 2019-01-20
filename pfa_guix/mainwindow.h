@@ -1,19 +1,12 @@
-#pragma once
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
 
-#include <QtWidgets/QMainWindow>
+//#include <QtWidgets/QMainWindow>
 //#include <QVector>
-#include "player.h"
 
 #include <QtWidgets>
-
-class PLWindow : public QMainWindow
-{
-	Q_OBJECT
-
-public:
-	PLWindow(QWidget *parent = Q_NULLPTR);
-	~PLWindow();
-};
+#include "player.h"
+#include "plwindow.h"
 
 class MainWindow : public QMainWindow
 {
@@ -24,13 +17,15 @@ public:
 	~MainWindow();
 
 	QStackedWidget *mainStk;
+
+	// player window variables
+	bool pflag;
 	QString pfilename;
 	Player *player0;
-
-	bool pflag;
-
 	PLWindow *plWin;
 
 public slots:
 	void openPlayer();
 };
+
+#endif // MAINWINDOW_H

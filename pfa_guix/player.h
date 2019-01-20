@@ -6,7 +6,7 @@ using namespace std;
 
 class Player : public Character
 {
-private:
+public:
     char sex;
     int age;
     int height;
@@ -24,7 +24,7 @@ private:
     double encumb;
     double capacity;
 
-public:
+//public:
     //void giveWeapon();
 
 	Player(string filename, string mode);

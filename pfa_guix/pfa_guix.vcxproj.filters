@@ -60,9 +60,15 @@
     <ClCompile Include="frame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="plwindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="mainwindow.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="plwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

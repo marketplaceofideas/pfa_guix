@@ -11,7 +11,7 @@ enum skillnums {acro, appr, bluf, clim, craf, dipl, disa, disg, esca, fly, hand,
 
 class Character
 {
-protected:
+public:
     static string skillName[35];
 
     // variables
@@ -66,7 +66,7 @@ protected:
 
     vector<Weapon> wvec;
 
-public:
+//public:
     static void randShop();
     void addInv();
 
