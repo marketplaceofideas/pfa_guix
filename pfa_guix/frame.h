@@ -47,10 +47,6 @@ public:
     static string getStats(string, int&, vector<string>&);
     static void setStats(vector<string>&, string);
     static void setStats(vector<int>&, string);
-    static void condOut(int, string);
-    static void condOut(string, string);
-    static void displayStat(vector<string> vec, string str = "", int desc = 0); //template <typename T>
-    static void displayStat(vector<int> vec, string str = "", int desc = 0);
 //    template <typename T>
 //    void Frame::condOut(T i, string name)
 //    static void displayStat(vector<int> vec, string str = "", int desc = 0);

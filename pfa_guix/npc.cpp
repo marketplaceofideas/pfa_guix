@@ -113,7 +113,7 @@ Npc::Npc(string temp) : Character()
     Frame::setStats(feat, temp);
 
     getline(indexfile, temp);
-    Frame::setStats(skill, temp);
+    Frame::setStats(skill[0], temp);
 
     getline(indexfile, temp);
     Frame::setStats(lang, temp);
@@ -491,62 +491,3 @@ void Npc::addIndex()
 
     indexfile.close();
 }
-
-void Npc::display()
-{
-    cout << name << endl;
-    cout << "cr: " << cr << endl;
-    Frame::displayStat(type, "type");
-    cout << "xp: " << xp << endl;
-
-    Frame::condOut(race, "race");
-    Frame::condOut(class1, "class");
-
-    cout << "align: " << align << endl;
-    Frame::displayStat(size1, "size");
-    Frame::displayStat(subtype, "subtype");
-
-    cout << "init: " << init << endl;
-
-    Frame::displayStat(trait, "trait", 1);
-    Frame::displayStat(aura, "aura", 1);
-
-    Frame::displayStat(ac, "ac");
-    cout << "hp: " << hp[3] << ", d" << hp[1] << endl;;
-    cout << "fsav: " << fsav << endl;
-    cout << "rsav: " << rsav << endl;
-    cout << "wsav: " << wsav << endl;
-
-    Frame::displayStat(dr, "dr");
-    Frame::displayStat(er, "er");
-    Frame::displayStat(im, "im");
-    Frame::condOut(sr, "sr");
-
-    Frame::displayStat(spd, "speed");
-    Frame::displayStat(weapon, "weapon", 2);
-    Frame::displayStat(ability, "ability", 1);
-    Frame::displayStat(spell, "spell", 1);
-
-    cout << "str: " << str << "     ";
-    cout << "dex: " << dex << "     ";
-    cout << "con: " << con << endl;
-    cout << "int: " << int1 << "     ";
-    cout << "wis: " << wis << "     ";
-    cout << "cha: " << cha << endl;
-
-    cout << "bab: " << bab << "     ";
-    cout << "cmb: " << cmb << "     ";
-    cout << "cmd: " << cmd << endl;
-
-    Frame::displayStat(feat, "feat");
-    Character::displaySkill();
-    Frame::displayStat(lang, "language");
-    Frame::displayStat(sq, "sq");
-    cout << "environment: " << environment << endl;
-    Frame::displayStat(organization, "organization");
-    Frame::displayStat(treasure, "treasure");
-    Frame::displayStat(sability, "special ability: ");
-    cout << "description: " << desc << endl;
-    Frame::displayStat(extra, "extra");
-}
-

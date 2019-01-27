@@ -20,7 +20,6 @@ private:
 public:
     Npc(string str = "");
     static void addIndex();
-    void display();
 };
 
 #endif // NPC_H

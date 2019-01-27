@@ -43,7 +43,6 @@ public:
     void gaingp(double);
 
     //display
-    void display();
     void inputStat(vector<string>&, string, string fname = "");
     string saveStat(vector<string>);
     string saveStat(vector<int>);

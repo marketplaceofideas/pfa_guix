@@ -1,6 +1,7 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <vector>
 #include "item.h"
 #include "weapon.h"
 #include "equipment.h"
@@ -21,13 +22,13 @@ public:
     string race;
     string class1;
     string align;
-    vector<string> size1;
+    vector<string> size1; // change to string?
     int init;
     vector<string> trait;
     vector<string> aura;
 
-    vector<int> ac; // n, t, ff
-    vector<int> hp; // lvl, hit dice, bonus..?
+    vector<int> ac; // total, armor, dex
+    vector<int> hp; // lvl, hit dice, bonus..? FIX
 
     int fsav;
     int rsav;
@@ -57,7 +58,7 @@ public:
     int cmd;
 
     vector<string> feat;
-    vector<int> skill;
+    vector<vector<int>> skill; // total, rank, class, race, misc
 
     vector<string> lang;
     vector<string> sq;
@@ -82,8 +83,8 @@ public:
     //skills
     int chooseSkill();
     int rollSkill(int choice = -1);
-    void useSkill(int choice = -1);
-    void displaySkill();
+
+    string useSkill(int sskill, int tskill, string pack);
 
     friend class Frame;
 };

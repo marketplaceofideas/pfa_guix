@@ -127,7 +127,7 @@ Player::Player(string filename, string mode) : Character()
 		getline(file, temp);
 		Frame::setStats(feat, temp);
 		getline(file, temp);
-		Frame::setStats(skill, temp);
+		Frame::setStats(skill[0], temp);
 		getline(file, temp);
 		Frame::setStats(lang, temp);
 		getline(file, temp);
@@ -201,7 +201,7 @@ void Player::save(string filename)
     file << cmb << endl;
     file << cmd << endl;
     file << saveStat(feat) << endl;
-    file << saveStat(skill) << endl;
+    file << saveStat(skill[0]) << endl;
     file << saveStat(lang) << endl;
     file << saveStat(sq) << endl;
     file << saveStat(inv) << endl;
@@ -495,11 +495,11 @@ void Player::gainSkill(int r)
         choice = atoi(temp.c_str());
         int j = 1;
         string s = string(",") + temp + string(",");
-        if (skill[choice-1] == 0 && classSkill.find(s) != -1)
+        if (skill[choice-1][0] == 0 && classSkill.find(s) != -1)
         {
             j += 3;
         }
-        skill[choice-1] += j;
+        skill[choice-1][0] += j;
     }
 
     //cout << endl;
@@ -524,72 +524,7 @@ void Player::gaingp(double i)
     gp += i;
 }
 
-//display
-void Player::display()
-{
-    /*cout << name << endl;
-    cout << "sex: " << sex << endl;
-    cout << "age: " << age << endl;
-    cout << "height: " << height/12 << "\'" << height%12 << "\"" << endl;
-    cout << "weight: " << weight << endl;
-    cout << "align: " << align << endl;
-    cout << "lvl: " << lvl << endl;
-    cout << "xp: " << xp << "/" << xpcap << endl;
-    cout << "race: " << race << endl;
-    Frame::displayStat(lang, "language");
-
-    Frame::displayStat(favoredClass, "favored class");
-    cout << "class: " << class1 << endl;
-    cout << "rank: " << rank1 << endl;
-
-    Frame::displayStat(size1, "size");
-
-    cout << "init: " << init << endl;
-
-    cout << "str: " << str << "     ";
-    cout << "dex: " << dex << "     ";
-    cout << "con: " << con << endl;
-    cout << "int: " << int1 << "     ";
-    cout << "wis: " << wis << "     ";
-    cout << "cha: " << cha << endl;
-
-    cout << "bab: " << bab << "     ";
-    cout << "cmb: " << cmb << "     ";
-    cout << "cmd: " << cmd << endl;
-
-    Frame::displayStat(trait, "trait", 1);
-    Frame::displayStat(aura, "aura", 1);
-
-    Frame::displayStat(ac, "ac");
-    cout << "hp: " << hp[3] << ", d" << hp[1] << endl;;
-    cout << "fsav: " << fsav << endl;
-    cout << "rsav: " << rsav << endl;
-    cout << "wsav: " << wsav << endl;
-
-    Frame::displayStat(dr, "dr");
-    Frame::displayStat(er, "er");
-    Frame::displayStat(im, "im");
-    Frame::condOut(sr, "sr");
-
-    Frame::displayStat(spd, "speed");
-    Frame::displayStat(weapon, "weapon", 2);
-    Frame::displayStat(ability, "ability", 1);
-    Frame::displayStat(spell, "spell", 1);
-
-    Frame::displayStat(feat, "feat");
-    Character::displaySkill();
-
-    cout << "gp: " << gp << endl;
-    cout << "encumbrance: " << encumb << endl;
-    cout << "capacity: " << capacity << endl;
-    Frame::displayStat(inv, "inventory");
-    Frame::displayStat(equipped, "equipped");
-    Frame::displayStat(proficiency, "proficiency");
-    Frame::displayStat(companion, "companion");
-    Frame::displayStat(sq, "sq");
-    Frame::displayStat(extra, "extra");
-    cout << endl;*/
-}
+// display
 
 void Player::setxpcap()
 {

@@ -13,20 +13,23 @@ class PLWindow : public QMainWindow
 
 public:
 	PLWindow(Player *player0, QWidget *parent = Q_NULLPTR);
-	Player *player0;
+	Player *p0;
 
 	void pexpUp();
 	void plvlUp();
-	void secondarySkillPage(int index, QString sklpgforms);
-	void tertiarySkillPage(QWidget *tskillPg, QGridLayout *tskilllPg, int index);
 
-	void setEqp();
+	void setEqp(QPushButton *button);
 
-	QStackedWidget *skillStk;
+	QScrollArea *createSkill(QWidget *par);
+	QStackedWidget *secondarySkillPage(int index, QStackedWidget *upperStk);
+	QWidget *tertiarySkillPage(int upper, int lower, QStackedWidget *upperStk);
 
-	QStackedWidget *sskillStk[35];
-	QWidget *skillPg[35];
-	QVBoxLayout *skilllPg[35];
+	QVBoxLayout *createInv(QWidget *parent);
+	QGridLayout *createCore(QWidget *parent);
+	QScrollArea *createSpell(QWidget *parent);
+	QScrollArea *createFeat(QWidget *parent);
+
+	QString getString(QString key, int index);
 
 	QLineEdit *pName;
 	QComboBox *pSex;
@@ -51,6 +54,9 @@ public:
 	QVector<QPushButton*> itemNames;
 	QVector<QLabel*> itemWeight;
 	QVector<QPushButton*> itemPrice;
+
+//public slots:
+	void skillDC(QString str, QString &mod, bool check = true);
 };
 
 #endif // PLWINDOW_H

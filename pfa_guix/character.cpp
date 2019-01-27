@@ -1,9 +1,10 @@
 #include "character.h"
 //#include "weapon.h"
-#include <cstdlib>
+#include <cstdlib> // atoi
 #include <string>
 #include <vector>
-#include <fstream>
+#include <fstream> // files
+#include <sstream> // stringstream
 #include "frame.h"
 using namespace std; //                                              to sort by type, cr, etc: loop declare all IDs and then sort
 
@@ -188,7 +189,7 @@ int Character::rollSkill(int choice)
     }
 
     int i = Frame::rollDie(20);
-    i += skill[choice];
+    i += skill[choice][0];
     if (choice == acro)
     {
         return i + statMod(dex);
@@ -332,319 +333,217 @@ int Character::rollSkill(int choice)
 }
 
 
-void Character::useSkill(int choice)
+string Character::useSkill(int sskill, int tskill, string pack)
 {
-    if (choice == -1)
-    {
-        choice = chooseSkill();
-    }
+	vector<string> tvec; // vector for each tskill element
+	stringstream stream(pack);
+	string temp;
+	while (getline(stream, temp, ';')) // unpack element rules
+	{
+		tvec.push_back(temp);
+	}
 
-    if (choice == -1)
-    {
-        //cout << "not found" << endl;
-        return;
-    }
-
-    int dc = 0;
-    int check;
-    string temp;
+	vector<string> bvec;
+	vector<string> mvec;
+	vector<string> avec;
+	int b = 0;
+	int m = 1;
+	int a = 0;
+	for (int i = 0; i < tvec.size(); ++i) // create b, m, a
+	{
+		if (tvec[i][1] == 'b') // +_b_num
+		{
+			if (tvec[i][0] == '+')
+				b += stoi(tvec[i].substr(2));
+			bvec.push_back(tvec[i][0] + tvec[i].substr(2));
+		}
+		else if (tvec[i][1] == 'm') // +_m_num
+		{
+			if (tvec[i][0] == '*')
+				m *= stoi(tvec[i].substr(2));
+			mvec.push_back(tvec[i][0] + tvec[i].substr(2));
+		}
+		else // +(a)num
+		{
+			if (tvec[i][0] == '+')
+				a += stoi(tvec[i].substr(1));
+			avec.push_back(tvec[i]);
+		}
+	}
 
     string critfail = "critical failure: ";
     string fail = "failed";
-    string succstr = "success";
+    string succ = "success";
     string critsucc = "critical success: ";
-    //if (choice == acro)
-    //{
-    //    cout << "1. ledge-walk (half speed)" << endl
-    //         << "2. move through threatened space" << endl /////////check ground conditions: 1-4, add jump distance = check
-    //         << "3. long jump" << endl
-    //         << "4. high jump" << endl
-    //         << "5. brace fall (when deliberate)";
-    //    cout << "choice or 0 to exit: ";
-    //    getline(cin, temp);
-    //    switch(atoi(temp.c_str()))
-    //    {
-    //    case 0:
-    //        return;
-    //    case 1:
-    //        cout << "width (inches): ";
-    //        getline(cin, temp);
-    //        dc += 20;
-    //        dc -= ((atoi(temp.c_str()) + 3) / 5) * 5;
-    //        break;
-    //    case 2:
-    //        cout << "opponent cmd: ";
-    //        getline(cin, temp);
-    //        dc += atoi(temp.c_str());
 
-    //        cout << "through enemy? ";
-    //        getline(cin, temp);
-    //        if (temp[0] == 'y')
-    //        {
-    //            dc += 5;
-    //        }
+	// (,You fall,,){10}Walk on ledge/uneven ground; Avoid a.o.o.; (5You jump &dc& ft and fall,&20rsav:You narrowly catch the ledge&You miss the ledge and fall,You succeed and jump up to &dc(/2c1)& ft,)Long jump; "
+	// "(5You jump &dc/4& ft and fall prone,&20rsav:You narrowly catch the ledge&You miss the ledge and fall,You succeed and jump up to &dc/4(/2c1)& ft,)High jump; Avoid fall damage"
+	// , (,You use 1 full round action and fail (you cannot try again),You use 1 full round action and succeed,)
 
-    //        cout << "full speed? ";
-    //        getline(cin, temp);
-    //        if (temp[0] == 'y')
-    //        {
-    //            dc += 10;
-    //        }
-    //        break;
-    //    case 3:
-    //        critfail += "fall";
-    //        fail += ": 20rsav to catch ledge";
-    //        check += 4*((spd[0] - 30) / 10); // override for climb speed
+	switch (sskill)
+	{
+	case acro:
+		switch (tskill)
+		{
+		case 0:
+		case 1:
+		case 2:
+		case 3:
+		case 4:
+			// pass in:
+			bool softground;
+			int lethal, water, dc;
+			// evaluate:
+			int check, nlethal6, nlethal3 = 0;
+			bool spellcasting = false;
 
-    //        cout << "distance: ";
-    //        getline(cin, temp);
-    //        dc += atoi(temp.c_str());
+			if (lethal > 500)
+			{
+				spellcasting = true;
+			}
 
-    //        cout << "10ft running start? ";
-    //        getline(cin, temp);
-    //        if (temp[0] == 'n')
-    //        {
-    //            dc *= 2;
-    //        }
-    //        break;
-    //    case 4:
-    //        critfail += "fall prone";
-    //        fail += ": 20rsav to catch ledge";
-    //        check += 4*((spd[0] - 30) / 10); // see above
+			if (water >= 10) // fall into water
+			{
+				if (dc == 15) // deliberate
+				{
+					dc += 5 * lethal / 50; // dc increases by 5 for every 50 ft of dive
 
-    //        cout << "height: ";
-    //        getline(cin, temp);
-    //        dc += 4 * atoi(temp.c_str());
+					if (skill[swim][0] > skill[acro][0])
+					{
+						check = skill[swim][0];
+						// "you used swim"
+					}
+					if (check >= dc)
+					{
+						lethal -= 3 * water;
+					}
+				}
+				else
+				{
+					lethal -= 40;
+					nlethal3 += 20;
+				}
+			}
+			else
+			{
+				if (dc == 15)
+				{
+					lethal -= 10;
+					nlethal6 += 10;
 
-    //        cout << "10ft running start? ";
-    //        getline(cin, temp);
-    //        if (temp[0] == 'n')
-    //        {
-    //            dc *= 2;
-    //        }
-    //        break;
-    //    case 5:
-    //        dc += 15;
-    //        succstr += ": ignore first 10ft of falling"; //cont
-    //    }
-    //}
-    //else if (choice == appr)
-    //{
-    //    cout << "1. " << endl
-    //         << "2. " << endl
-    //         << "3. " << endl
-    //         << "4. " << endl;
-    //    cout << "choice or 0 to exit: ";
-    //    getline(cin, temp);
-    //    switch(atoi(temp.c_str()))
-    //    {
-    //    case 0:
-    //        return;
-    //    case 1:
-    //        break;
-    //    case 2:
-    //        break;
-    //    case 3:
-    //        break;
-    //    case 4:
-    //        break;
-    //    }
-    //}
-    //else if (choice == bluf)
-    //{
-    //    cout << "1. lie" << endl
-    //         << "2. feint" << endl
-    //         << "3. speak code" << endl;
-    //    cout << "choice or 0 to exit: ";
-    //    getline(cin, temp);
-    //    switch(atoi(temp.c_str()))
-    //    {
-    //    case 0:
-    //        return;
-    //    case 1:
-    //        break;
-    //    case 2:
-    //        break;
-    //    case 3:
-    //        break;
-    //    }
-    //}
-    //else if (choice == clim)
-    //{
+					if (softground)
+					{
+						lethal -= 10;
+						nlethal6 += 10;
+					}
+					if (check >= dc)
+					{
+						lethal -= 10;
+					}
+				}
+			}
 
-    //}
-    //else if (choice == craf)
-    //{
-    //    // depends on what user is invested in
-    //    // alchemy, armor, basket, book, bow, calligraphy, carpentry, cloth, clothing, glass, jewelry, leather, locks, paintings, pottery, sculptures, ships, shoes
-    //    // stonemasonry, traps, weapons, (skills?)
+			if (lethal + nlethal6 + nlethal3 > 200)
+			{
+				lethal = 200 - nlethal6 - nlethal3;
+			}
 
-    //    cout << "1. alchemy" << endl
-    //         << "2. armor" << endl
-    //         << "3. bow" << endl
-    //         << "4. weapon" << endl
-    //         << "5. other" << endl
-    //         << "6. trap" << endl;
-    //    cout << "choice or 0 to exit: ";
-    //    getline(cin, temp);
-    //    switch(atoi(temp.c_str()))
-    //    {
-    //    case 0:
-    //        return;
-    //    case 1:
-    //        break;
-    //    case 2:
-    //        break;
-    //    case 3:
-    //        break;
-    //    }
-    //}
-    /*else*/ if (choice == dipl)
-    {
+			// dmg + ndmg3 + ndmg6, output string + swimcheck + spellcast
 
-    }
-    else if (choice == disa)
-    {
+			break;
+		}
+		break;
+	case appr:
+		break;
+	case bluf:
+		switch (tskill)
+		{
+		case 0:
+		case 1:
+		case 2:
+			// 15 base val
+			// passively targeted, takes twice as long as normal msg
+			break;
+		}
+		break;
+	case clim:
+		break;
+	case craf:
+		break;
+	case dipl:
+		break;
+	case disa:
+		break;
+	case disg:
+		break;
+	case esca:
+		break;
+	case fly:
+		break;
+	case hand:
+		break;
+	case heal:
+		break;
+	case inti:
+		break;
+	case karc:
+		break;
+	case kdun:
+		break;
+	case keng:
+		break;
+	case kgeo:
+		break;
+	case khis:
+		break;
+	case kloc:
+		break;
+	case knat:
+		break;
+	case knob:
+		break;
+	case kpla:
+		break;
+	case krel:
+		break;
+	case ling:
+		break;
+	case perc:
+		break;
+	case perf:
+		break;
+	case prof:
+		break;
+	case ride:
+		break;
+	case sens:
+		break;
+	case slei:
+		break;
+	case spel:
+		break;
+	case stea:
+		break;
+	case surv:
+		break;
+	case swim:
+		break;
+	case usem:
+		break;
+	}
 
-    }
-    else if (choice == disg)
-    {
+	// check method: d20, rank, ability, racial, +3
+	int check = Frame::rollDie(20) + skill[sskill][0];
 
-    }
-    else if (choice == esca)
-    {
-
-    }
-    else if (choice == fly)
-    {
-
-    }
-    else if (choice == hand)
-    {
-
-    }
-    else if (choice == heal)
-    {
-
-    }
-    else if (choice == inti)
-    {
-
-    }
-    else if (choice == karc)
-    {
-
-    }
-    else if (choice == kdun)
-    {
-
-    }
-    else if (choice == keng)
-    {
-
-    }
-    else if (choice == kgeo)
-    {
-
-    }
-    else if (choice == khis)
-    {
-
-    }
-    else if (choice == kloc)
-    {
-
-    }
-    else if (choice == knat)
-    {
-
-    }
-    else if (choice == knob)
-    {
-
-    }
-    else if (choice == kpla)
-    {
-
-    }
-    else if (choice == krel)
-    {
-
-    }
-    else if (choice == ling)
-    {
-
-    }
-    else if (choice == perc)
-    {
-
-    }
-    else if (choice == perf)
-    {
-
-    }
-    else if (choice == prof)
-    {
-
-    }
-    else if (choice == ride)
-    {
-
-    }
-    else if (choice == sens)
-    {
-
-    }
-    else if (choice == slei)
-    {
-
-    }
-    else if (choice == spel)
-    {
-
-    }
-    else if (choice == stea)
-    {
-
-    }
-    else if (choice == surv)
-    {
-
-    }
-    else if (choice == swim)
-    {
-
-    }
-    else if (choice == usem)
-    {
-
-    }
-
-    if (check < dc - 5 && critfail != "critical failure: ")
-    {
-        //cout << critfail;
-    }
-    else if (check >= dc + 10 && critsucc != "critical success: ")
-    {
-        //cout << critsucc;
-    }
-    else if (check < dc)
-    {
-        //cout << fail;
-    }
-    else
-    {
-        //cout << succstr;
-    }
-}
-
-
-void Character::displaySkill()
-{
-    for (int i = 0; i < skill.size(); i++)
-    {
-        Frame::condOut(skill[i], skillName[i]);
-    }
+ //   if (check < dc - 5 && critfail != "critical failure: ")
+	//	return critfail;
+ //   else if (check >= dc + 10 && critsucc != "critical success: ")
+	//	return critsucc;
+	//if (check < dc)
+	//	return fail;
+ //   else
+	//	return succ;
+	return succ;
 }
 
 string Character::skillName[35] = {"acrobatics", "appraise", "bluff", "climb", "craft", "diplomacy", "disable device", "disguise", "escape artist",
