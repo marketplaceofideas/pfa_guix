@@ -71,6 +71,12 @@
     <QtMoc Include="plwindow.h">
       <Filter>Header Files</Filter>
     </QtMoc>
+    <QtMoc Include="miscwindows.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="character.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
   </ItemGroup>
   <ItemGroup>
     <QtRcc Include="mainwindow.qrc">
@@ -94,9 +100,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="weapon.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="character.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="equipment.h">

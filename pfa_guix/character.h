@@ -1,92 +1,164 @@
 #ifndef CHARACTER_H
 #define CHARACTER_H
 
+#include <QtWidgets>
 #include <vector>
+#include "frame.h"
 #include "item.h"
 #include "weapon.h"
 #include "equipment.h"
-using namespace std;
 
 enum skillnums {acro, appr, bluf, clim, craf, dipl, disa, disg, esca, fly, hand, heal, inti, karc, kdun, keng, kgeo, khis,
            kloc, knat, knob, kpla, krel, ling, perc, perf, prof, ride, sens, slei, spel, stea, surv, swim, usem};
 
-class Character
+class Character : public QObject
 {
+	Q_OBJECT
 public:
-    static string skillName[35];
+    //static string skillName[35];
 
-    // variables
+	void skillSetup(vector<vector<int>> &vec, QString &temp)
+	{
+		QStringList list = temp.split(";");
+		vec.resize(list.size());
+		for (int i = 0; i < list.length(); ++i)
+		{
+			QStringList listlist = list[i].split(",");
+			vec[i].resize(listlist.size());
+			for (int j = 0; j < listlist.size(); ++j)
+			{
+				if (listlist[j] == 0)
+					vec[i][j] = 0;
+				else
+					vec[i][j] = listlist[j].toInt();
+			}
+		}
+	}
 
+	// if unspecified and not dynamic: total, core, temp
+
+	// typing
+	double cr;
+	vector<string> type;		// type, terrain, climate
+	vector<string> subtype;
+	string environment;
+	vector<string> organization;
+	int legs;
+
+	// personal
     string name;
-    int xp; // all vectors?????????????????
-    string race;
-    string class1;
-    string align;
-    vector<string> size1; // change to string?
-    int init;
-    vector<string> trait;
-    vector<string> aura;
+	string id;
+	char sex;
+	int age;
+	int height;
+	int weight;
+	string race;
+	string class1;
+	string align;
+	string deity;
 
-    vector<int> ac; // total, armor, dex
-    vector<int> hp; // lvl, hit dice, bonus..? FIX
+	vector<string> size1;
+	vector<int> space;
+	vector<int> reach;
 
-    int fsav;
-    int rsav;
-    int wsav;
+	int lvl;
+	vector<int> xp;				// current, max, rewarded
 
-    // resistances
-    vector<string> dr;
-    vector<string> er;
-    vector<string> im;
-    int sr;
+	// core
+	vector<string> deflect;
+    vector<int> ac;				// total, armor, dex
+    vector<int> hp;				// hp, mult, hitdie, bonus;		racial bonus: x_d_x
+	vector<int> spd;			// land, armor, burrow, climb, fly, swim
 
-    vector<int> spd;
+	vector<int> init;
 
-    vector<string> weapon;
-    vector<string> ability;
-    vector<string> spell;
+	vector<int> str;
+	vector<int> dex;
+	vector<int> con;
+	vector<int> int1;
+	vector<int> wis;
+	vector<int> cha;
 
-    int str;
-    int dex;
-    int con;
-    int int1;
-    int wis;
-    int cha;
+	vector<int> bab;
+	vector<int> cmb;
+	vector<int> cmd;
 
-    int bab;
-    int cmb;
-    int cmd;
+	vector<int> fsav;
+	vector<int> rsav;
+	vector<int> wsav;
+	vector<string> saveMod;
 
-    vector<string> feat;
-    vector<vector<int>> skill; // total, rank, class, race, misc
+	// extra
+	// 35 skills, special types (craft), ->
+	vector<vector<vector<int>>> skill; // total, rank, class, race, misc
+	int rank;
+
+	vector<string> condition;
+	vector<string> status;		// prone, sneaking, etc
+	vector<string> feat;
+	vector<string> sability;	// ex, sp, su : _ex_:_sense_:name
+    vector<string> spell;		// name:_ability_
+
+	vector<string> proficiency;
+	vector<string> trait;
+	vector<string> aura;
+
+	// resistances
+	vector<string> dr;			// hardness?
+	vector<string> er;
+	vector<string> im;
+	vector<int> sr;
 
     vector<string> lang;
-    vector<string> sq;
-    vector<string> inv; //////////////////////////////////////// customize
+	vector<string> favoredClass;
+	vector<vector<string>> classInfo; // cleric domains, etc
     vector<string> extra;
 
-    vector<Weapon> wvec;
+	string desc;
 
-//public:
-    static void randShop();
-    void addInv();
+	double gp;
+	vector<double> encumb;
 
+	vector<Item> inv;
+    vector<Weapon> eqpW;		// right, left
+	vector<Equipment> eqpE;		// armor, belt, body, chest, eyes, feet, hands, head, headband, neck, rring, lring, shield, shoulders, wrist
+	vector<Item> eqpI;
 
-    Character();
+	///////////////////////////////
+
+	Character(string temp, string fname = "");
+	
+	void addItem(string);
+	QVector<QString> makeVec();
+
+	friend bool operator<(const Character &left, const Character &right);
+
     int statMod(int);
 
     //descriptions
-    static void checkDesc(string, string);
+    static void checkDesc(string, string); // remove?
     static void addDesc(string, string);
     static void showDesc(string);
 
     //skills
-    int chooseSkill();
     int rollSkill(int choice = -1);
-
     string useSkill(int sskill, int tskill, string pack);
 
+
+
     friend class Frame;
+
+	// signal handling for display windows
+	template<typename T>
+	void setter(vector<T> vec, int i, T val)
+	{ vec[i] = val, refresh(); }
+
+	template<typename T>
+	void setter(T var, T val)
+	{ var = val, refresh(); }
+
+signals:
+	void refresh();
 };
 
 #endif

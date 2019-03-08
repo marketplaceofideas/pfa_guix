@@ -1,12 +1,11 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-//#include <QtWidgets/QMainWindow>
-//#include <QVector>
-
 #include <QtWidgets>
-#include "player.h"
 #include "plwindow.h"
+#include "miscwindows.h"
+
+#include "player.h"
 
 class MainWindow : public QMainWindow
 {
@@ -16,16 +15,30 @@ public:
 	MainWindow(QWidget *parent = Q_NULLPTR);
 	~MainWindow();
 
+	// layout sections
+	QVBoxLayout *charList(QWidget*);
+	QVBoxLayout *shop(QWidget*);
+
+	// misc functions
+	void createIndex(QString);
+	bool getIndex(string, string&);
+	bool inputPlayer();
+
+	QVBoxLayout *tempMisc(QWidget*);
+
 	QStackedWidget *mainStk;
 
 	// player window variables
 	bool pflag;
-	QString pfilename;
+	string pfilename;
 	Player *player0;
 	PLWindow *plWin;
 
-public slots:
-	void openPlayer();
+	vector<Player*> plVec;
+	vector<Npc*> npcVec;
+	vector<Item*> itmVec;
+	vector<Weapon*> wpnVec;
+	vector<Equipment*> eqpVec;
 };
 
 #endif // MAINWINDOW_H

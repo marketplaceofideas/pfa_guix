@@ -1,20 +1,198 @@
 #include "character.h"
 //#include "weapon.h"
 #include <cstdlib> // atoi
-#include <string>
-#include <vector>
 #include <fstream> // files
 #include <sstream> // stringstream
 #include "frame.h"
 using namespace std; //                                              to sort by type, cr, etc: loop declare all IDs and then sort
 
-/*
-void Player::addInv(string fname, string temp)
+Character::Character(string temp, string fname)
 {
+	QVector<QString> vec = Frame::findVec(temp, fname);
+	QStringList nameVec = Frame::getQString("charFile"); // vector for file layout
 
+	// add saveMod, maybe others
+
+	Frame::setStat(cr, vec[nameVec.indexOf("CR")]);
+	Frame::setStat(type, vec[nameVec.indexOf("Type")]);
+	Frame::setStat(subtype, vec[nameVec.indexOf("Subtypes")]);
+	Frame::setStat(environment, vec[nameVec.indexOf("Environment")]);
+	Frame::setStat(organization, vec[nameVec.indexOf("Organization")]);
+	Frame::setStat(name, vec[nameVec.indexOf("Name")]);
+	Frame::setStat(id, vec[nameVec.indexOf("ID")]);
+	Frame::setStat(sex, vec[nameVec.indexOf("Sex")]);
+	Frame::setStat(age, vec[nameVec.indexOf("Age")]);
+	Frame::setStat(height, vec[nameVec.indexOf("Height")]);
+	Frame::setStat(weight, vec[nameVec.indexOf("Weight")]);
+	Frame::setStat(race, vec[nameVec.indexOf("Race")]);
+	Frame::setStat(class1, vec[nameVec.indexOf("Class")]);
+	//Frame::setStat(classInfo, vec[nameVec.indexOf("classInfo")]));
+	Frame::setStat(align, vec[nameVec.indexOf("Alignment")]);
+	Frame::setStat(size1, vec[nameVec.indexOf("Size")]);
+	Frame::setStat(lvl, vec[nameVec.indexOf("Level")]);
+	Frame::setStat(xp, vec[nameVec.indexOf("XP")]);
+	Frame::setStat(ac, vec[nameVec.indexOf("AC")]);
+	Frame::setStat(deflect, vec[nameVec.indexOf("Deflect")]);
+	Frame::setStat(hp, vec[nameVec.indexOf("HP")]);
+	Frame::setStat(spd, vec[nameVec.indexOf("Speed")]);
+	Frame::setStat(space, vec[nameVec.indexOf("Space")]);
+	Frame::setStat(reach, vec[nameVec.indexOf("Reach")]);
+	Frame::setStat(init, vec[nameVec.indexOf("Initiative")]);
+
+	Frame::setStat(str, vec[nameVec.indexOf("STR")]);
+	Frame::setStat(dex, vec[nameVec.indexOf("DEX")]);
+	Frame::setStat(con, vec[nameVec.indexOf("CON")]);
+	Frame::setStat(int1, vec[nameVec.indexOf("INT")]);
+	Frame::setStat(wis, vec[nameVec.indexOf("WIS")]);
+	Frame::setStat(cha, vec[nameVec.indexOf("CHA")]);
+	Frame::setStat(bab, vec[nameVec.indexOf("BAB")]);
+	Frame::setStat(cmb, vec[nameVec.indexOf("CMB")]);
+	Frame::setStat(cmd, vec[nameVec.indexOf("CMD")]);
+	Frame::setStat(fsav, vec[nameVec.indexOf("Fortitude Save")]);
+	Frame::setStat(rsav, vec[nameVec.indexOf("Reflex Save")]);
+	Frame::setStat(wsav, vec[nameVec.indexOf("Will Save")]);
+	Frame::setStat(saveMod, vec[nameVec.indexOf("Save Mod")]);
+
+	skill.resize(35);
+	int skval = nameVec.indexOf("Acrobatics");
+	for (int i = 0; i < 35; ++i)
+		skillSetup(skill[i], vec[skval + i]);
+
+	Frame::setStat(rank, vec[nameVec.indexOf("Rank")]);
+	Frame::setStat(condition, vec[nameVec.indexOf("Condition")]);
+	Frame::setStat(status, vec[nameVec.indexOf("Status")]);
+	Frame::setStat(feat, vec[nameVec.indexOf("Feats")]);
+	Frame::setStat(sability, vec[nameVec.indexOf("Special Abilities")]);
+	Frame::setStat(spell, vec[nameVec.indexOf("Spells")]);
+	Frame::setStat(proficiency, vec[nameVec.indexOf("Proficiency")]);
+	Frame::setStat(trait, vec[nameVec.indexOf("Traits")]);
+	Frame::setStat(aura, vec[nameVec.indexOf("Auras")]);
+	Frame::setStat(dr, vec[nameVec.indexOf("DR")]);
+	Frame::setStat(er, vec[nameVec.indexOf("ER")]);
+	Frame::setStat(im, vec[nameVec.indexOf("IM")]);
+	Frame::setStat(sr, vec[nameVec.indexOf("SR")]);
+	Frame::setStat(lang, vec[nameVec.indexOf("Languages")]);
+	Frame::setStat(favoredClass, vec[nameVec.indexOf("FavoredClass")]);
+	Frame::setStat(extra, vec[nameVec.indexOf("Extra")]);
+
+	Frame::setStat(legs, vec[nameVec.indexOf("Legs")]); // legs
+
+	Frame::setStat(desc, vec[nameVec.indexOf("Description")]);
+	Frame::setStat(gp, vec[nameVec.indexOf("gp")]);
+	encumb.push_back(0);
+	encumb.push_back(Frame::getTable("weight")[str[1]]); // setSize
+	
+	QStringList qsl = vec[nameVec.indexOf("Items")].split(';');
+	for (int i = 0; i < qsl.size(); ++i)
+		inv.push_back(Item(qsl[i].toStdString()));
+
+	// update all 'total' vals
+
+	if (id == "player")
+	{
+		// automate sub/types, xp[3], CR, class skills
+	}
 }
 
+QVector<QString> Character::makeVec()
+{
+	QVector<QString> vec;
+	QVector<QString> nameVec;
+	vec.resize(nameVec.size());
 
+	vec[nameVec.indexOf("CR")] = QString::number(cr);
+	vec[nameVec.indexOf("Type")] = Frame::getStat(type);
+	vec[nameVec.indexOf("Legs")] = QString::number(legs);
+	vec[nameVec.indexOf("Subtypes")] = Frame::getStat(subtype);
+	vec[nameVec.indexOf("Environment")] = QString::fromStdString(environment);
+	vec[nameVec.indexOf("Organization")] = Frame::getStat(organization);
+	vec[nameVec.indexOf("Name")] = QString::fromStdString(name);
+	vec[nameVec.indexOf("ID")] = QString::fromStdString(id);
+	vec[nameVec.indexOf("Sex")] = sex;
+	vec[nameVec.indexOf("Age")] = QString::number(age);
+	vec[nameVec.indexOf("Height")] = QString::number(height);
+	vec[nameVec.indexOf("Weight")] = QString::number(weight);
+	vec[nameVec.indexOf("Race")] = QString::fromStdString(race);
+	vec[nameVec.indexOf("Class")] = QString::fromStdString(class1);
+	vec[nameVec.indexOf("FavoredClass")] = Frame::getStat(favoredClass);
+	//vec[nameVec.indexOf("Class Info")] = Frame::getStat(classInfo);
+	vec[nameVec.indexOf("Alignment")] = QString::fromStdString(align);
+	vec[nameVec.indexOf("Size")] = Frame::getStat(size1);
+	vec[nameVec.indexOf("Level")] = QString::number(lvl);
+	vec[nameVec.indexOf("XP")] = Frame::getStat(xp);
+	vec[nameVec.indexOf("AC")] = Frame::getStat(ac);
+	vec[nameVec.indexOf("Deflect")] = Frame::getStat(deflect);
+	vec[nameVec.indexOf("HP")] = Frame::getStat(hp);
+	//vec[nameVec.indexOf("Regen")] = Frame::getStat(regen);
+	vec[nameVec.indexOf("Speed")] = Frame::getStat(spd);
+	vec[nameVec.indexOf("Space")] = Frame::getStat(space);
+	vec[nameVec.indexOf("Reach")] = Frame::getStat(reach);
+	vec[nameVec.indexOf("Initiative")] = Frame::getStat(init);
+	vec[nameVec.indexOf("STR")] = Frame::getStat(str);
+	vec[nameVec.indexOf("DEX")] = Frame::getStat(dex);
+	vec[nameVec.indexOf("CON")] = Frame::getStat(con);
+	vec[nameVec.indexOf("INT")] = Frame::getStat(int1);
+	vec[nameVec.indexOf("WIS")] = Frame::getStat(wis);
+	vec[nameVec.indexOf("CHA")] = Frame::getStat(cha);
+	vec[nameVec.indexOf("BAB")] = Frame::getStat(bab);
+	vec[nameVec.indexOf("CMB")] = Frame::getStat(cmb);
+	vec[nameVec.indexOf("CMD")] = Frame::getStat(cmd);
+	vec[nameVec.indexOf("Fortitude Save")] = Frame::getStat(fsav);
+	vec[nameVec.indexOf("Reflex Save")] = Frame::getStat(rsav);
+	vec[nameVec.indexOf("Will Save")] = Frame::getStat(wsav);
+	vec[nameVec.indexOf("Save Mod")] = Frame::getStat(saveMod);
+	vec[nameVec.indexOf("Rank")] = QString::number(rank);
+	vec[nameVec.indexOf("Condition")] = Frame::getStat(condition);
+	vec[nameVec.indexOf("Status")] = Frame::getStat(status);
+	vec[nameVec.indexOf("Feats")] = Frame::getStat(feat);
+	vec[nameVec.indexOf("Special Abilities")] = Frame::getStat(sability);
+	vec[nameVec.indexOf("Spells")] = Frame::getStat(spell);
+	vec[nameVec.indexOf("Proficiency")] = Frame::getStat(proficiency);
+	vec[nameVec.indexOf("Traits")] = Frame::getStat(trait);
+	vec[nameVec.indexOf("Auras")] = Frame::getStat(aura);
+	vec[nameVec.indexOf("DR")] = Frame::getStat(dr);
+	vec[nameVec.indexOf("ER")] = Frame::getStat(er);
+	vec[nameVec.indexOf("IM")] = Frame::getStat(im);
+	vec[nameVec.indexOf("SR")] = Frame::getStat(sr);
+	vec[nameVec.indexOf("Languages")] = Frame::getStat(lang);
+	vec[nameVec.indexOf("Extra")] = Frame::getStat(extra);
+	vec[nameVec.indexOf("Description")] = QString::fromStdString(desc);
+	vec[nameVec.indexOf("gp")] = QString::number(gp);
+	//vec[nameVec.indexOf("Encumb")] = Frame::getStat(encumb);
+	//vec[nameVec.indexOf("Items")] = Frame::getStat();
+	//vec[nameVec.indexOf("Weapons")] = Frame::getStat();
+	//vec[nameVec.indexOf("Equipment")] = Frame::getStat();
+
+	return vec;
+}
+
+void Character::addItem(string name)
+{
+	
+}
+
+/*
+void Player::setEncumb()
+{
+	if (encumb[0] < encumb[1] / 3)
+	{
+		// light load
+	}
+	else if (encumb[0] < encumb[1] * 2 / 3)
+	{
+		// medium load (max dex: +3, armor check: -3, reduce speed [below], run x4)
+	}
+	else if (encumb[0] < encumb[1])
+	{
+		// heavy load (max dex: +1, armor check: -6, reduce speed [below], run x3)
+	}
+	else
+	{
+		// overencumbered
+	}
+
+	int newSpd = 5 * (ceil(spd * 2 / 3) / 5);
+}
 
 void shop(string temp = "")//////////////////////////////////consider type???
 {
@@ -38,7 +216,7 @@ void shop(string temp = "")//////////////////////////////////consider type???
         getline(indexfile, trash); // ignore to newline????????????????
     }
 
-    Frame::setStats(svec, temp);
+    Frame::setStat(svec, temp);
 }
 
 
@@ -82,9 +260,9 @@ void Character::randShop() // move somewhere..?
 }
 */
 
-Character::Character()
+bool operator<(const Character &left, const Character &right)
 {
-
+	return left.name < right.name;
 }
 
 int Character::statMod(int i)
@@ -96,7 +274,7 @@ int Character::statMod(int i)
 void Character::checkDesc(string fname, string temp)
 {
     Frame::names.clear();
-    Frame::setStats(Frame::names, temp);
+    //Frame::setStat(Frame::names, temp);
     for (int i = 0; i < Frame::names.size(); i++)
     {
         addDesc(fname, Frame::names[i]);
@@ -117,7 +295,7 @@ void Character::addDesc(string fname, string name)
     x++;
 
     //cout << "enter description for ";
-    Frame::getStats(name, x, fvec); // desc
+    //Frame::getStat(name, x, fvec); // desc
 
     fvec.insert(fvec.begin() + x, "");
     x++;
@@ -146,41 +324,11 @@ void Character::showDesc(string fname)
     //cout << temp << endl;
 }
 
-//skills
-int Character::chooseSkill()
-{
-    string temp;
-    //cout << "enter first 4 characters of skill (no spaces, just k for knowledge) or menu for menu: ";
-    //getline(cin, temp);
-    if (temp == "menu")
-    {
-        for (int i = 0; i < skill.size(); i++)
-        {
-            //cout << i+1 << ". " << skillName[i] << endl;
-        }
-        //cout << "choose: ";
-        //getline(cin, temp);
-        return atoi(temp.c_str());
-    }
-    else
-    {
-        for (int i = 0; i < skill.size(); i++)
-        {
-            string str = Frame::alnumOnly(skillName[i]);
-            if (str.find(temp) != string::npos)
-            {
-                return i;
-            }
-        }
-        return -1;
-    }
-}
-
 int Character::rollSkill(int choice)
 {
     if (choice == -1)
     {
-        int choice = chooseSkill();
+        //int choice = chooseSkill();
     }
     if (choice == -1)
     {
@@ -189,147 +337,8 @@ int Character::rollSkill(int choice)
     }
 
     int i = Frame::rollDie(20);
-    i += skill[choice][0];
-    if (choice == acro)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == appr)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == bluf)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == clim)
-    {
-        return i + statMod(str);
-    }
-    else if (choice == craf)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == dipl)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == disa)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == disg)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == esca)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == fly)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == hand)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == heal)
-    {
-        return i + statMod(wis);
-    }
-    else if (choice == inti)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == karc)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == kdun)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == keng)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == kgeo)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == khis)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == kloc)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == knat)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == knob)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == kpla)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == krel)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == ling)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == perc)
-    {
-        return i + statMod(wis);
-    }
-    else if (choice == perf)
-    {
-        return i + statMod(cha);
-    }
-    else if (choice == prof)
-    {
-        return i + statMod(wis);
-    }
-    else if (choice == ride)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == sens)
-    {
-        return i + statMod(wis);
-    }
-    else if (choice == slei)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == spel)
-    {
-        return i + statMod(int1);
-    }
-    else if (choice == stea)
-    {
-        return i + statMod(dex);
-    }
-    else if (choice == surv)
-    {
-        return i + statMod(wis);
-    }
-    else if (choice == swim)
-    {
-        return i + statMod(str);
-    }
-    else if (choice == usem)
-    {
-        return i + statMod(cha);
-    }
+    //i += stoi(skill[choice][0]);
+	// if blank = blank ...
 }
 
 
@@ -391,10 +400,10 @@ string Character::useSkill(int sskill, int tskill, string pack)
 		case 3:
 		case 4:
 			// pass in:
-			bool softground;
-			int lethal, water, dc;
+			bool softground = false;
+			int lethal = 0, water = 0, dc = 0;
 			// evaluate:
-			int check, nlethal6, nlethal3 = 0;
+			int check = 0, nlethal6 = 0, nlethal3 = 0;
 			bool spellcasting = false;
 
 			if (lethal > 500)
@@ -410,7 +419,7 @@ string Character::useSkill(int sskill, int tskill, string pack)
 
 					if (skill[swim][0] > skill[acro][0])
 					{
-						check = skill[swim][0];
+						//check = stoi(skill[swim][0]);
 						// "you used swim"
 					}
 					if (check >= dc)
@@ -533,7 +542,7 @@ string Character::useSkill(int sskill, int tskill, string pack)
 	}
 
 	// check method: d20, rank, ability, racial, +3
-	int check = Frame::rollDie(20) + skill[sskill][0];
+	//int check = Frame::rollDie(20) + stoi(skill[sskill][0]);
 
  //   if (check < dc - 5 && critfail != "critical failure: ")
 	//	return critfail;
@@ -545,9 +554,3 @@ string Character::useSkill(int sskill, int tskill, string pack)
 	//	return succ;
 	return succ;
 }
-
-string Character::skillName[35] = {"acrobatics", "appraise", "bluff", "climb", "craft", "diplomacy", "disable device", "disguise", "escape artist",
-                                   "fly", "handle animal", "heal", "intimidate", "k.arcana", "k.dungeoneering", "k.engineering", "k.geography", "k.history",
-                                   "k.local", "k.nature", "k.nobility", "k.planes", "k.religion", "linguistics", "perception", "perform", "profession", "ride",
-                                   "sense motive", "sleight of hand", "spellcraft", "stealth", "survival" "swim", "use magic device"};
-

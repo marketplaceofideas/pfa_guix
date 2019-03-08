@@ -1,36 +1,23 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include "character.h"
 
-using namespace std;
+#include "character.h"
 
 class Player : public Character
 {
 public:
-    char sex;
-    int age;
-    int height;
-    int weight;
-    int lvl;
-    int xpcap;
-    vector<string> favoredClass;
-    string classSkill;
-    int rank1;
-    vector<string> equipped;
-    vector<string> proficiency;
-    vector<string> companion;
+    //string classSkill;
+    //vector<string> companion;
 
-    double gp;
-    double encumb;
-    double capacity;
 
 //public:
     //void giveWeapon();
 
-	Player(string filename, string mode);
-
-    // initialize
+	Player(string name);
+	//Player(const Player&) = delete;
     void save(string filename);
+
+	// initialize
     void setxpcap();
     void setRace();
     void setClass(int i = 1);

@@ -3,155 +3,13 @@
 #include <cstdlib>
 #include <fstream>
 #include <sstream>
-#include <string>
 #include "frame.h"
 using namespace std;
 
-//void Player::giveWeapon()
-//{
-//    wvec.push_back(Weapon());
-//    wvec.push_back(Weapon());
-//}
-
-Player::Player(string filename, string mode) : Character()
+Player::Player(string temp) : Character(temp)
 {
-	string temp = filename;
-	if (mode == "new")
-	{
-		// gross
-	}
 
-	else if (mode == "input")
-	{
-		
-	}
-
-	else if (mode == "load")
-	{
-		ifstream file(temp.c_str());
-
-		getline(file, name);
-
-		getline(file, temp);
-		sex = temp[0];
-		getline(file, temp);
-		age = atoi(temp.c_str());
-		getline(file, temp);
-		height = atoi(temp.c_str());
-		getline(file, temp);
-		weight = atoi(temp.c_str());
-
-		getline(file, align);
-
-		getline(file, temp);
-		lvl = atoi(temp.c_str());
-		getline(file, temp);
-		xp = atoi(temp.c_str());
-		getline(file, temp);
-		xpcap = atoi(temp.c_str());
-		getline(file, temp);
-		str = atoi(temp.c_str());
-		getline(file, temp);
-		dex = atoi(temp.c_str());
-		getline(file, temp);
-		con = atoi(temp.c_str());
-		getline(file, temp);
-		int1 = atoi(temp.c_str());
-		getline(file, temp);
-		wis = atoi(temp.c_str());
-		getline(file, temp);
-		cha = atoi(temp.c_str());
-
-		getline(file, race);
-
-		getline(file, temp);
-		Frame::setStats(favoredClass, temp);
-
-		getline(file, class1);
-		getline(file, classSkill);
-
-		getline(file, temp);
-		Frame::setStats(proficiency, temp);
-
-		getline(file, temp);
-		rank1 = atoi(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(size1, temp);
-
-		getline(file, temp);
-		init = atoi(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(trait, temp);
-		getline(file, temp);
-		Frame::setStats(aura, temp);
-		getline(file, temp);
-		Frame::setStats(ac, temp);
-		getline(file, temp);
-		Frame::setStats(hp, temp);
-
-		getline(file, temp);
-		fsav = atoi(temp.c_str());
-		getline(file, temp);
-		rsav = atoi(temp.c_str());
-		getline(file, temp);
-		wsav = atoi(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(dr, temp);
-		getline(file, temp);
-		Frame::setStats(er, temp);
-		getline(file, temp);
-		Frame::setStats(im, temp);
-
-		getline(file, temp);
-		sr = atoi(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(spd, temp);
-		getline(file, temp);
-		Frame::setStats(weapon, temp);
-		getline(file, temp);
-		Frame::setStats(ability, temp);
-		getline(file, temp);
-		Frame::setStats(spell, temp);
-
-		getline(file, temp);
-		bab = atoi(temp.c_str());
-		getline(file, temp);
-		cmb = atoi(temp.c_str());
-		getline(file, temp);
-		cmd = atoi(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(feat, temp);
-		getline(file, temp);
-		Frame::setStats(skill[0], temp);
-		getline(file, temp);
-		Frame::setStats(lang, temp);
-		getline(file, temp);
-		Frame::setStats(sq, temp);
-		getline(file, temp);
-		Frame::setStats(inv, temp);
-		getline(file, temp);
-		Frame::setStats(equipped, temp);
-		getline(file, temp);
-		Frame::setStats(companion, temp);
-
-		getline(file, temp);
-		gp = atof(temp.c_str());
-		getline(file, temp);
-		encumb = atof(temp.c_str());
-		getline(file, temp);
-		capacity = atof(temp.c_str());
-
-		getline(file, temp);
-		Frame::setStats(extra, temp);
-
-		file.close();
-	}
-}
+}	
 
 void Player::save(string filename)
 {
@@ -159,58 +17,9 @@ void Player::save(string filename)
 
     ofstream file(temp.c_str());
 
-    file << name << endl;
-    file << sex << endl;
-    file << age << endl;
-    file << height << endl;
-    file << weight << endl;
-    file << align << endl;
-    file << lvl << endl;
-    file << xp << endl;
-    file << xpcap << endl;
-    file << str << endl;
-    file << dex << endl;
-    file << con << endl;
-    file << int1 << endl;
-    file << wis << endl;
-    file << cha << endl;
-    file << race << endl;
-    file << saveStat(favoredClass) << endl;
-    file << class1 << endl;
-    file << classSkill << endl;
-    file << saveStat(proficiency) << endl;
-    file << rank1 << endl;
-    file << saveStat(size1) << endl;
-    file << init << endl;
-    file << saveStat(trait) << endl;
-    file << saveStat(aura) << endl;
-    file << saveStat(ac) << endl;
-    file << saveStat(hp) << endl;
-    file << fsav << endl;
-    file << rsav << endl;
-    file << wsav << endl;
-    file << saveStat(dr) << endl;
-    file << saveStat(er) << endl;
-    file << saveStat(im) << endl;
-    file << sr << endl;
-    file << saveStat(spd) << endl;
-    file << saveStat(weapon) << endl;
-    file << saveStat(ability) << endl;
-    file << saveStat(spell) << endl;
-    file << bab << endl;
-    file << cmb << endl;
-    file << cmd << endl;
-    file << saveStat(feat) << endl;
-    file << saveStat(skill[0]) << endl;
-    file << saveStat(lang) << endl;
-    file << saveStat(sq) << endl;
-    file << saveStat(inv) << endl;
-    file << saveStat(equipped) << endl;
-    file << saveStat(companion) << endl;
-    file << gp << endl;
-    file << encumb << endl;
-    file << capacity << endl;
-    file << saveStat(extra) << endl;
+	vector<string> vec;
+
+
 
     // add temporary conditions and stuff
     file.close();
@@ -277,16 +86,16 @@ void Player::setRace()
         spd.push_back(20);
 
         proficiency.insert(proficiency.begin(), "halfling");
-        fsav++;
+        /*fsav++;
         rsav++;
-        wsav++;
+        wsav++;*/
         break;
     case 7:
         race = "human";
         size1.push_back("medium");
         spd.push_back(30);
 
-        rank1++;
+        rank++;
         break;
     }
 
@@ -296,11 +105,11 @@ void Player::setRace()
     }
     if (size1[0] == "small")
     {
-        capacity = capacity*3/4;
+        encumb[1] = encumb[1] * 3/4;
         ac[0]++;
-        bab++;
-        cmb--;
-        cmd--;
+        bab[0]++;
+        cmb[0]--;
+        cmd[0]--;
     }
 }
 
@@ -312,13 +121,15 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
     // gunslinger, magus, ninja, samurai
     // battle herald, holy vindicator, horizon walker, master chymist, master spy, nature warden, rage prophet, stalwart defender
     // arcane archer, arcane trickster, assassin, dragon disciple, duelist, eldritch knight, loremaster, master theurge, pathfinder chronicle, shadowdancer
+
+	string classSkill; // temporary
     if (class1 == "rogue")
     {
         if (i == 0)
         {
             classSkill = ",1,2,3,4,5,6,7,8,9,13,15,19,24,25,26,27,29,30,32,34,35,";
             hp.push_back(8);
-            rank1 = 8;
+            rank = 8;
             proficiency.push_back("light armor");
             proficiency.push_back("simple weapons");
             proficiency.push_back("hand crossbow");
@@ -329,15 +140,15 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
 
 
             int j = lvl;
-            bab = j - ((j+3 - (j+3)%4)/4);
+            /*bab = j - ((j+3 - (j+3)%4)/4);
             fsav = (j - j%3)/3;
             rsav = 2 + (j - j%2)/2;
-            wsav = (j - j%3)/3;
+            wsav = (j - j%3)/3;*/
         }
         else
         {
             int j = lvl;
-            bab += j - ((j+3 - (j+3)%4)/4);
+            /*bab += j - ((j+3 - (j+3)%4)/4);
             fsav += (j - j%3)/3;
             rsav += 2 + (j - j%2)/2;
             wsav += (j - j%3)/3;
@@ -346,7 +157,7 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
             bab -= j - ((j+3 - (j+3)%4)/4);
             fsav -= (j - j%3)/3;
             rsav -= 2 + (j - j%2)/2;
-            wsav -= (j - j%3)/3;
+            wsav -= (j - j%3)/3;*/
 
             // add bonuses for classes?????????????????????
         }
@@ -357,7 +168,7 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
         {
             classSkill = ",2,5,10,14,15,16,17,18,19,20,21,22,23,24,27,31,";
             hp.push_back(6);
-            rank1 = 2;
+            rank = 2;
             proficiency.push_back("club");
             proficiency.push_back("dagger");
             proficiency.push_back("light crossbow");
@@ -365,7 +176,7 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
             proficiency.push_back("quarterstaff");
 
             int j = lvl;
-            bab = (j - j%2)/2;
+            /*bab = (j - j%2)/2;
             fsav = (j - j%3)/3;
             rsav = (j - j%3)/3;
             wsav = 2 + (j - j%2)/2;
@@ -382,7 +193,7 @@ void Player::setClass(int i) // this function sets at i=0, otherwise it finds th
             bab -= (j - j%2)/2;
             fsav -= (j - j%3)/3;
             rsav -= (j - j%3)/3;
-            wsav -= 2 + (j - j%2)/2;
+            wsav -= 2 + (j - j%2)/2;*/
         }
     }
     else
@@ -482,27 +293,27 @@ void Player::gainlvl()
 
 void Player::gainSkill(int r)
 {
-    string temp;
-    int choice;
-    for(int i = 0; i < skill.size(); i++)
-    {
-        //cout << i+1 << ". " << skillName[i] << endl;
-    }
-    for (int i = 0; i < r; i++)
-    {
-        //cout << "choice (no repeats): ";
-        //getline(cin, temp);
-        choice = atoi(temp.c_str());
-        int j = 1;
-        string s = string(",") + temp + string(",");
-        if (skill[choice-1][0] == 0 && classSkill.find(s) != -1)
-        {
-            j += 3;
-        }
-        skill[choice-1][0] += j;
-    }
+    //string temp;
+    //int choice;
+    //for(int i = 0; i < skill.size(); i++)
+    //{
+    //    //cout << i+1 << ". " << skillName[i] << endl;
+    //}
+    //for (int i = 0; i < r; i++)
+    //{
+    //    //cout << "choice (no repeats): ";
+    //    //getline(cin, temp);
+    //    choice = atoi(temp.c_str());
+    //    int j = 1;
+    //    string s = string(",") + temp + string(",");
+    //    if (skill[choice-1][0] == 0 && classSkill.find(s) != -1)
+    //    {
+    //        j += 3;
+    //    }
+    //    skill[choice-1][0] += j;
+    //}
 
-    //cout << endl;
+    ////cout << endl;
 }
 
 void Player::gainProficiency(string str)
@@ -512,8 +323,8 @@ void Player::gainProficiency(string str)
 
 void Player::gainxp(int i)
 {
-    xp += i;
-    if (xp >= xpcap)
+    xp[0] += i;
+    if (xp[0] >= xp[1])
     {
         gainlvl();
     }
@@ -530,7 +341,7 @@ void Player::setxpcap()
 {
     double dlvl = lvl;
     int xpcaptemp = round((2000*(pow(2,floor((dlvl+1)/2))-1)+3000*(pow(2,floor(dlvl/2))-1))/pow(10,(floor(sqrt(dlvl))+1))*2)/2*pow(10,(floor(sqrt(dlvl))+1));
-    xpcap = xpcaptemp + xpcaptemp % 2;
+    xp[1] = xpcaptemp + xpcaptemp % 2;
 }
 
 // general
